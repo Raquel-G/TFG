@@ -1,0 +1,14 @@
+<mod>
+    <type tname="nessus">
+        <root rname="vuln">
+            <proc pname="hola" />
+            <proc pname="adios" />   
+        </root>
+    </type>
+    <type tname="metasploit">
+        <root rname="attacks">
+            <proc pname="a" />
+            <proc pname="b" />   
+        </root>
+    </type>
+</mod>
