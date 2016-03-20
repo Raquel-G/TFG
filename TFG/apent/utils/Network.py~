@@ -4,8 +4,7 @@ class Network:
     __slots__=['__addr', '__addrHostsList', '__hostsDict']
     
     def __init__(self):
-        self.__addrHostsList = []    
-        self.__hostsDict = {}    
+        self.__addrHostsList = []        
     
     def setAddr(self, addr):
         self.__addr = addr

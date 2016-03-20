@@ -1,14 +1,10 @@
-from Host import Host
 
-class Network:
+class Subnet:
     __slots__=['__addr', '__addrHostsList', '__hostsDict']
     
-    def __init__(self):
-        self.__addrHostsList = []    
-        self.__hostsDict = {}    
-    
-    def setAddr(self, addr):
+    def __init__(self, addr):
         self.__addr = addr
+        self.__addrHostsList = []        
     
     def setAddrHostsList(self, hostsList):
         self.__addrHostsList = hostsList

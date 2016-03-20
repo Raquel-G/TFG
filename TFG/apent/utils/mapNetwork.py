@@ -3,6 +3,12 @@ from subprocess import Popen, PIPE
 from netaddr import *
 import socket
 
+manager = Manager()
+reached_ips = manager.list([])
+
+n_threads = 255
+threads = []
+
 def findNetAddr():
     import subprocess
  
@@ -22,30 +28,9 @@ def findNetAddr():
 
     return net_addr
 
-
-#ip = getNetAddr()
-#ip -->  IPNetwork('10.10.0.0/16')
-#ip.ip --> IPAddress('10.10.0.0')
-#ip.broadcast --> IPAddress('10.10.255.255')
-#ip.hostmask --> IPAddress('0.0.255.255')
-#ip.netmask --> IPAddress('255.255.0.0')
-#ip.prefixlen --> 16
-#ip.size --> 65536
-#ip.cidr --> IPNetwork('10.10.0.0/16')
-
-manager = Manager()
-
-reached_ips = manager.list([])
-threads = []
-
-ntwkaddr = findNetAddr()
-cidr = "/" + str(ntwkaddr.prefixlen)
-
-n_threads = 255
-
-def net_ping():
+def net_ping(addr):
     p = Pool(n_threads)
-    p.map(ping, ntwkaddr.iter_hosts())
+    p.map(ping, addr.iter_hosts())
     p.close()
     p.join()	
 
@@ -56,16 +41,21 @@ def ping(ip):
     if "Destination Host Unreachable" not in stdout:
         reached_ips.append(ip)
 
-net_ping()
-
-reached_ips = sorted(reached_ips)
-
-print "IPLIST: " + str(len(reached_ips))
-
-for ip in reached_ips:
-   print ip
+def getLiveHosts():
+    global reached_ips
+    reached_ips = sorted(reached_ips)
+    return reached_ips
 
 
+#ip = getNetAddr()
+#ip -->  IPNetwork('10.10.0.0/16')
+#ip.ip --> IPAddress('10.10.0.0')
+#ip.broadcast --> IPAddress('10.10.255.255')
+#ip.hostmask --> IPAddress('0.0.255.255')
+#ip.netmask --> IPAddress('255.255.0.0')
+#ip.prefixlen --> 16
+#ip.size --> 65536
+#ip.cidr --> IPNetwork('10.10.0.0/16')
 
 
 

@@ -2,8 +2,7 @@
 class Host:
     __slots__=['__addr', '__os', '__portsList']
     
-    def __init__(self, addr):
-        self.__addr = addr        
+    def __init__(self):
         self.__portsList = []
     
     def getAddr(self):

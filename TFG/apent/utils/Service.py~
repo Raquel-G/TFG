@@ -10,14 +10,11 @@ class Service:
         self.__name = name
         self.__version = version
 
-    def setVersion(self, version):
-        self.__version = version
-    
     def getVersion(self):
         return self.__version
 
     def setName(self, name):
         self.__name = name
     
-    def getName(self):
-        return self.__name
+    def getService(self):
+        return self.__service
