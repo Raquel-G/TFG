@@ -7,6 +7,8 @@ def main():
     print "Initializing the penetration test..."
     print "Phase 1: Mapping the network."
     mainCore.mapInternalNetwork()
+    print "\nPorts State."
+    mainCore.mapNetworkHosts()
     
     
 if __name__ == "__main__":

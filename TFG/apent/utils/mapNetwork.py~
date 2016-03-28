@@ -1,7 +1,16 @@
 from multiprocessing import Pool, Manager
 from subprocess import Popen, PIPE
 from netaddr import *
+import logging
+logging.getLogger("scapy.runtime").setLevel("ERROR")
+from scapy.all import *
 import socket
+from Host import Host
+from Port import Port
+from threading import Thread
+from Queue import *
+from collections  import defaultdict
+from Portscanner import Portscanner
 
 manager = Manager()
 reached_ips = manager.list([])
@@ -41,21 +50,27 @@ def ping(ip):
     if "Destination Host Unreachable" not in stdout:
         reached_ips.append(ip)
 
-def returnIP():
+def getLiveHosts():
     global reached_ips
     reached_ips = sorted(reached_ips)
     return reached_ips
 
+def statePortsDetection(nethostlist):
+    for host in nethostlist:        
+        ps = Portscanner(str(host))
+        (openports, filteredports) = ps.run()
+        
+        print "IPAddress: " + str(host)
+        
+        for port in openports:
+            print str(port) + "|" + port.getProtocol() + " Port OPEN"
+        
+        if len(filteredports) < 21:
+            for port in filteredports:
+                print str(port) + "|" + port.getProtocol() + " Port FILTERED"
+        else:
+            print "Found " + str(len(filteredports)) + " filtered ports."
 
-#ip = getNetAddr()
-#ip -->  IPNetwork('10.10.0.0/16')
-#ip.ip --> IPAddress('10.10.0.0')
-#ip.broadcast --> IPAddress('10.10.255.255')
-#ip.hostmask --> IPAddress('0.0.255.255')
-#ip.netmask --> IPAddress('255.255.0.0')
-#ip.prefixlen --> 16
-#ip.size --> 65536
-#ip.cidr --> IPNetwork('10.10.0.0/16')
-
+        print "\n"
 
 

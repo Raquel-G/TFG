@@ -1,0 +1,24 @@
+import threading
+import logging
+
+class GenThread(threading.Thread):
+
+    def __init__(self, group=None, target=None, name=None, arg1=(), arg2=(), kwargs=None, verbose=None):
+        threading.Thread.__init__(self, group=group, target=target, name=name, verbose=verbose)
+        self.arg1 = arg1
+        self.arg2 = arg2
+        self.kwargs = kwargs
+
+        
+    def run(self):
+        try:
+            if self._target:
+                self._target(*self._arg1, *self._arg2, **self._kwargs)
+        finally:
+            # Avoid a refcycle if the thread is running a function with
+            # an argument that has a member that points to the thread.
+            del self._target, self._arg1, self._arg2, self._kwargs
+        
+for i in range(10):
+    gth = GenThread(args=(i,), kwargs={'g' : 'G', 'e' : 'E'})
+    gth.start()

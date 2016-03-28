@@ -23,7 +23,7 @@ class Core:
         addr = findNetAddr()
         self.__network.setAddr(addr)
         
-        print "Network Address: " + str(addr)
+        print "Network Address: " + str(addr)   
         
         net_ping(addr)
         addrList = getLiveHosts()
@@ -32,12 +32,12 @@ class Core:
         print "IP Addresses:"
         for ip in addrList:
             print ip
-        
+         
     def mapNetworkHosts(self):
-        for addr in self.__network.getAddrHostsList():
-            #OSdetection(addr)
-            #servicesDetection(addr)
-            print ""
+        from utils.mapNetwork import *
+        
+        statePortsDetection(self.__network.getAddrHostsList())
+
 
     def getNetwork(self):
         return self.__network

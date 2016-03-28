@@ -12,7 +12,13 @@ class Host:
     def setAddr(self, addr):
         self.__addr = addr
 
+    def getPortsList(self):
+        return self.__portsList
+
     def setPortsList(self, portsList):
         for port in portsList:
             self.__portsList.append(Port(port))
+
+    def addPort(self, port):
+        self.__portsList.append(port)
 

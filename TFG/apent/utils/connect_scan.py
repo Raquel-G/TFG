@@ -15,8 +15,6 @@ scanPorts = ports.strip().split(":")
 for port in scanPorts:
     response = sr1( IP(dst=dst_ip) / TCP(sport=src_port, dport=int(port), flags="S"))
     
-    response = sr1( IP(dst="192.168.1.37") IP(dst="216.58.210.131") / TCP(sport=RandShort(), dport=int(40), flags="S"))
-    
     if(str(type(response)) == "<type 'NoneType'>"):
         print port + ": Port Closed"
     elif (response.getlayer(TCP).flags == 0x12):
